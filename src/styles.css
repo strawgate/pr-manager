@@ -1,0 +1,496 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  line-height: 1.45;
+  font-size: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0d1117;
+  color: #e6edf3;
+}
+
+/* ── App shell ────────────────────────────────────── */
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  color: #e6edf3;
+  font-size: 0.875rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-link:hover {
+  background: #21262d;
+}
+
+.nav-link.active {
+  background: #21262d;
+  color: #58a6ff;
+}
+
+.nav-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  background: #f85149;
+  border-radius: 50%;
+  display: block;
+}
+
+.layout {
+  width: min(1400px, calc(100vw - 2rem));
+  margin: 1rem auto 3rem;
+}
+
+/* ── Panels and cards ─────────────────────────────── */
+
+.panel {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.25rem;
+}
+
+.muted {
+  color: #8b949e;
+}
+
+.error {
+  color: #f85149;
+}
+
+/* ── Forms ────────────────────────────────────────── */
+
+label {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 0.75rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+  border: 1px solid #30363d;
+  background: #0d1117;
+  color: #e6edf3;
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.875rem;
+}
+
+/* ── Buttons ──────────────────────────────────────── */
+
+.button-primary {
+  border: none;
+  background: #238636;
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.55rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.button-primary:hover {
+  background: #2ea043;
+}
+
+.button-secondary {
+  border: 1px solid #30363d;
+  background: #21262d;
+  color: #e6edf3;
+  border-radius: 6px;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.button-secondary:hover {
+  background: #30363d;
+}
+
+.button-secondary:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ── Dashboard header ─────────────────────────────── */
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dashboard-header-left,
+.dashboard-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ── Toolbar ──────────────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.toolbar-right {
+  display: flex;
+  gap: 2px;
+}
+
+.tab-btn {
+  border: 1px solid #30363d;
+  background: #0d1117;
+  color: #8b949e;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.tab-btn:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.tab-btn:last-child {
+  border-radius: 0 6px 6px 0;
+}
+
+.tab-btn.active {
+  background: #21262d;
+  color: #e6edf3;
+}
+
+/* ── Bucket groups ────────────────────────────────── */
+
+.bucket-group {
+  margin-bottom: 1.25rem;
+}
+
+.bucket-header {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  padding: 0.4rem 0 0.4rem 0.75rem;
+  border-left: 3px solid;
+  color: #e6edf3;
+}
+
+/* ── PR Card ──────────────────────────────────────── */
+
+.pr-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  margin-bottom: 0.35rem;
+}
+
+.pr-card-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.85rem;
+  cursor: pointer;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.pr-card-main:hover {
+  background: #1c2128;
+  border-radius: 8px;
+}
+
+.pr-card-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.pr-number {
+  color: #8b949e;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.pr-number-btn {
+  background: none;
+  border: none;
+  color: #8b949e;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.pr-number-btn:hover {
+  color: #58a6ff;
+  text-decoration: underline;
+}
+
+.pr-title {
+  color: #e6edf3;
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pr-title:hover {
+  color: #58a6ff;
+  text-decoration: underline;
+}
+
+.pr-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.pr-meta-text {
+  font-size: 0.8rem;
+}
+
+/* ── Badges ───────────────────────────────────────── */
+
+.badge {
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.15rem 0.45rem;
+  border-radius: 12px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+.badge-draft {
+  border-color: #8b949e;
+  color: #8b949e;
+}
+
+.badge-repo {
+  border-color: #30363d;
+  color: #8b949e;
+  background: #21262d;
+}
+
+.badge-threads {
+  border-color: #d29922;
+  color: #d29922;
+}
+
+/* ── Expanded PR card ─────────────────────────────── */
+
+.pr-card-expanded {
+  padding: 0.65rem 0.85rem 0.85rem;
+  border-top: 1px solid #21262d;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.pr-detail-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pr-action-row {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.pr-comment-row {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.pr-comment-row input {
+  flex: 1;
+  min-width: 150px;
+}
+
+/* ── Flyout ───────────────────────────────────────── */
+
+.flyout-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flyout-panel {
+  width: min(700px, 90vw);
+  height: 100vh;
+  background: #161b22;
+  border-left: 1px solid #30363d;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.flyout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #30363d;
+  position: sticky;
+  top: 0;
+  background: #161b22;
+  z-index: 1;
+}
+
+.flyout-header h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.flyout-content {
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.flyout-section h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.flyout-body {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  font-family: inherit;
+  background: #0d1117;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #21262d;
+}
+
+.flyout-item {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #21262d;
+}
+
+.flyout-item:last-child {
+  border-bottom: none;
+}
+
+.flyout-item-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  margin-bottom: 0.25rem;
+}
+
+.flyout-item-body {
+  margin: 0.25rem 0 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  font-family: inherit;
+  color: #c9d1d9;
+}
+
+.flyout-thread {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  margin-bottom: 0.5rem;
+}
+
+.flyout-timeline {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.flyout-timeline-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  font-size: 0.8rem;
+}
+
+/* ── Danger button ───────────────────────────────── */
+
+.button-danger {
+  border: 1px solid #f85149;
+  background: transparent;
+  color: #f85149;
+  border-radius: 6px;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.button-danger:hover {
+  background: rgba(248, 81, 73, 0.15);
+}
+
+.button-danger:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ── Links ────────────────────────────────────────── */
+
+a {
+  color: #58a6ff;
+}
