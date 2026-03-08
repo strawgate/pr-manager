@@ -1,4 +1,4 @@
-import {
+import type {
   Bucket,
   CheckState,
   MergeableState,
@@ -9,11 +9,7 @@ import {
 type CiStatus = "NO_RUNS" | "PASSING" | "FAILING" | "PENDING";
 
 export function normalizeReviewDecision(value: string | null): ReviewDecision {
-  if (
-    value === "APPROVED" ||
-    value === "CHANGES_REQUESTED" ||
-    value === "REVIEW_REQUIRED"
-  ) {
+  if (value === "APPROVED" || value === "CHANGES_REQUESTED" || value === "REVIEW_REQUIRED") {
     return value;
   }
   return "null";
@@ -82,10 +78,7 @@ export function classifyPr(input: Omit<PrCard, "bucket">): Bucket {
   return "OTHER";
 }
 
-export const BUCKET_META: Record<
-  Bucket,
-  { label: string; color: string; priority: number }
-> = {
+export const BUCKET_META: Record<Bucket, { label: string; color: string; priority: number }> = {
   READY_TO_MERGE: { label: "Ready to merge", color: "#3fb950", priority: 0 },
   WAITING_ON_CI: { label: "Waiting on CI", color: "#d29922", priority: 1 },
   NEEDS_REVIEW: { label: "Needs review", color: "#58a6ff", priority: 2 },

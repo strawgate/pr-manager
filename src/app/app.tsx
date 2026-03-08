@@ -1,7 +1,7 @@
 import { DashboardPage } from "@/features/dashboard/components/dashboard-page";
 import { SettingsPage } from "@/features/settings/components/settings-page";
-import { useHashRoute, navigate } from "@/hooks/use-hash-route";
 import { useSettingsStore } from "@/features/settings/store/use-settings-store";
+import { navigate, useHashRoute } from "@/hooks/use-hash-route";
 
 export function App() {
   const route = useHashRoute();
@@ -26,9 +26,7 @@ export function App() {
           {!hasToken ? <span className="nav-badge">!</span> : null}
         </button>
       </nav>
-      <main className="layout">
-        {route === "/settings" ? <SettingsPage /> : <DashboardPage />}
-      </main>
+      <main className="layout">{route === "/settings" ? <SettingsPage /> : <DashboardPage />}</main>
     </div>
   );
 }

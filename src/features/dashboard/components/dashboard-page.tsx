@@ -1,16 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  buildQuickComment,
-  closePr,
-  postPrComment,
-} from "@/features/dashboard/api/pr-actions";
-import { PrTable } from "@/features/dashboard/components/pr-table";
+import { useState } from "react";
+import { buildQuickComment, closePr, postPrComment } from "@/features/dashboard/api/pr-actions";
 import { PrDetailFlyout } from "@/features/dashboard/components/pr-detail-flyout";
-import { PrCard } from "@/features/dashboard/types";
+import { PrTable } from "@/features/dashboard/components/pr-table";
 import { usePrDashboard } from "@/features/dashboard/hooks/use-pr-dashboard";
+import type { PrCard } from "@/features/dashboard/types";
 import { useSettingsStore } from "@/features/settings/store/use-settings-store";
 import { navigate } from "@/hooks/use-hash-route";
-import { useState } from "react";
 
 const REFETCH_MS = 120_000;
 
@@ -55,11 +51,7 @@ export function DashboardPage() {
         <p className="muted">
           Add a GitHub fine-grained PAT in Settings to load your open pull requests.
         </p>
-        <button
-          type="button"
-          className="button-primary"
-          onClick={() => navigate("/settings")}
-        >
+        <button type="button" className="button-primary" onClick={() => navigate("/settings")}>
           Go to Settings
         </button>
       </section>
@@ -78,11 +70,7 @@ export function DashboardPage() {
     return (
       <section className="panel empty-state">
         <p className="error">{(query.error as Error).message}</p>
-        <button
-          type="button"
-          className="button-secondary"
-          onClick={() => query.refetch()}
-        >
+        <button type="button" className="button-secondary" onClick={() => query.refetch()}>
           Retry
         </button>
       </section>
@@ -97,9 +85,7 @@ export function DashboardPage() {
     <>
       <div className="dashboard-header">
         <div className="dashboard-header-left">
-          <span className="muted">
-            {query.data.viewer}
-          </span>
+          <span className="muted">{query.data.viewer}</span>
           {commentMutation.isSuccess ? (
             <span className="badge" style={{ borderColor: "#3fb950", color: "#3fb950" }}>
               Comment posted
@@ -112,9 +98,7 @@ export function DashboardPage() {
           ) : null}
         </div>
         <div className="dashboard-header-right">
-          <span className="muted">
-            {query.data.rateLimit.remaining} API calls left
-          </span>
+          <span className="muted">{query.data.rateLimit.remaining} API calls left</span>
           <button
             type="button"
             className="button-secondary"

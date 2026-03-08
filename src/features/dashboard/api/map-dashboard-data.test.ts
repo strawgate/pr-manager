@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
+import type { DashboardGraphqlData } from "@/features/dashboard/api/github-query";
 import { mapDashboardData } from "@/features/dashboard/api/map-dashboard-data";
-import { DashboardGraphqlData } from "@/features/dashboard/api/github-query";
 
 function makePrNode(overrides: Record<string, unknown> = {}) {
   return {
@@ -52,19 +52,16 @@ function makeData(
 describe("mapDashboardData", () => {
   it("deduplicates PRs across buckets and tracks sources", () => {
     const pr = makePrNode();
-    const result = mapDashboardData(
-      makeData({ authored: [pr], assigned: [pr] }),
-    );
+    const result = mapDashboardData(makeData({ authored: [pr], assigned: [pr] }));
     expect(result.prs).toHaveLength(1);
     expect(result.prs[0]?.sources).toContain("authored");
     expect(result.prs[0]?.sources).toContain("assigned");
   });
 
   it("maps labels and review threads", () => {
-    const result = mapDashboardData(
-      makeData({ authored: [makePrNode()] }),
-    );
-    const pr = result.prs[0]!;
+    const result = mapDashboardData(makeData({ authored: [makePrNode()] }));
+    const pr = result.prs[0];
+    expect(pr).toBeDefined();
     expect(pr.labels).toHaveLength(1);
     expect(pr.labels[0]?.name).toBe("dependencies");
     expect(pr.reviewThreads.total).toBe(2);
@@ -72,9 +69,7 @@ describe("mapDashboardData", () => {
   });
 
   it("maps diff stats", () => {
-    const result = mapDashboardData(
-      makeData({ authored: [makePrNode()] }),
-    );
+    const result = mapDashboardData(makeData({ authored: [makePrNode()] }));
     expect(result.prs[0]?.additions).toBe(20);
     expect(result.prs[0]?.deletions).toBe(5);
     expect(result.prs[0]?.changedFiles).toBe(3);

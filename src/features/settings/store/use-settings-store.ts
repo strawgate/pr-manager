@@ -12,10 +12,7 @@ type SettingsState = {
 
 const STORAGE_KEY = "pr-manager.settings.v1";
 
-function readStored(): Pick<
-  SettingsState,
-  "githubToken" | "openrouterApiKey" | "resultLimit"
-> {
+function readStored(): Pick<SettingsState, "githubToken" | "openrouterApiKey" | "resultLimit"> {
   if (typeof window === "undefined") {
     return { githubToken: "", openrouterApiKey: "", resultLimit: 30 };
   }
@@ -43,9 +40,7 @@ function readStored(): Pick<
   }
 }
 
-function persist(
-  value: Pick<SettingsState, "githubToken" | "openrouterApiKey" | "resultLimit">,
-) {
+function persist(value: Pick<SettingsState, "githubToken" | "openrouterApiKey" | "resultLimit">) {
   if (typeof window === "undefined") {
     return;
   }
@@ -54,7 +49,7 @@ function persist(
 
 const initial = readStored();
 
-export const useSettingsStore = create<SettingsState>((set, get) => ({
+export const useSettingsStore = create<SettingsState>((set) => ({
   githubToken: initial.githubToken,
   openrouterApiKey: initial.openrouterApiKey,
   resultLimit: initial.resultLimit,

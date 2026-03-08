@@ -1,10 +1,10 @@
+import type { DashboardGraphqlData } from "@/features/dashboard/api/github-query";
 import {
   classifyPr,
   normalizeMergeable,
   normalizeReviewDecision,
 } from "@/features/dashboard/domain/pr-state-machine";
-import { LabelInfo, PrCard, PrSource } from "@/features/dashboard/types";
-import { DashboardGraphqlData } from "@/features/dashboard/api/github-query";
+import type { LabelInfo, PrCard, PrSource } from "@/features/dashboard/types";
 
 type RawPr = {
   number: number;
@@ -82,8 +82,7 @@ function mapSinglePr(pr: RawPr): Omit<PrCard, "bucket" | "sources"> {
     pr.labels?.nodes?.map((l) => ({ name: l.name, color: l.color })) ?? [];
 
   const totalThreads = pr.reviewThreads?.totalCount ?? 0;
-  const resolvedThreads =
-    pr.reviewThreads?.nodes?.filter((t) => t.isResolved).length ?? 0;
+  const resolvedThreads = pr.reviewThreads?.nodes?.filter((t) => t.isResolved).length ?? 0;
 
   return {
     number: pr.number,
@@ -146,10 +145,7 @@ export function mapDashboardData(data: DashboardGraphqlData): DashboardResult {
     });
   }
 
-  prs.sort(
-    (a, b) =>
-      new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-  );
+  prs.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
 
   return {
     prs,

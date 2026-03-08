@@ -1,4 +1,4 @@
-import { PrCard } from "@/features/dashboard/types";
+import type { PrCard } from "@/features/dashboard/types";
 
 export function diffSizeLabel(pr: PrCard): string {
   const total = pr.additions + pr.deletions;
@@ -40,8 +40,7 @@ export function checksLabel(state: PrCard["statusCheckState"]): string {
 export function checksColor(state: PrCard["statusCheckState"]): string {
   if (!state) return "#8b949e";
   if (state === "SUCCESS") return "#3fb950";
-  if (state === "FAILURE" || state === "ERROR" || state === "ACTION_REQUIRED")
-    return "#f85149";
+  if (state === "FAILURE" || state === "ERROR" || state === "ACTION_REQUIRED") return "#f85149";
   return "#d29922";
 }
 
@@ -59,10 +58,7 @@ export function reviewColor(decision: PrCard["reviewDecision"]): string {
   return "#8b949e";
 }
 
-export function editorUrl(
-  editor: "cursor" | "vscode",
-  repoNwo: string,
-): string {
+export function editorUrl(editor: "cursor" | "vscode", repoNwo: string): string {
   const scheme = editor === "cursor" ? "cursor" : "vscode";
   return `${scheme}://vscode.git/clone?url=${encodeURIComponent(`https://github.com/${repoNwo}.git`)}`;
 }

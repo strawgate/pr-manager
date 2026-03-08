@@ -1,15 +1,11 @@
 import { describe, expect, it } from "vitest";
-import {
-  buildQuickComment,
-  closePr,
-  postPrComment,
-} from "@/features/dashboard/api/pr-actions";
+import { buildQuickComment, closePr, postPrComment } from "@/features/dashboard/api/pr-actions";
 
 describe("buildQuickComment", () => {
   it("builds ai-prefixed comment with custom instruction", () => {
-    expect(
-      buildQuickComment("ai", "Improve logging", "please fix tests"),
-    ).toBe("/ai please fix tests");
+    expect(buildQuickComment("ai", "Improve logging", "please fix tests")).toBe(
+      "/ai please fix tests",
+    );
   });
 
   it("builds copilot-prefixed default template", () => {

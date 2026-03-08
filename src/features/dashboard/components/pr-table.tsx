@@ -1,20 +1,13 @@
-import {
-  BUCKET_META,
-  BUCKET_ORDER,
-} from "@/features/dashboard/domain/pr-state-machine";
-import { Bucket, PrCard } from "@/features/dashboard/types";
-import { PrRow } from "@/features/dashboard/components/pr-row";
 import { useMemo, useState } from "react";
+import { PrRow } from "@/features/dashboard/components/pr-row";
+import { BUCKET_META, BUCKET_ORDER } from "@/features/dashboard/domain/pr-state-machine";
+import type { PrCard } from "@/features/dashboard/types";
 
 type GroupBy = "bucket" | "repo";
 
 type Props = {
   prs: PrCard[];
-  onQuickComment: (
-    pr: PrCard,
-    mode: "ai" | "copilot",
-    customInstruction: string,
-  ) => Promise<void>;
+  onQuickComment: (pr: PrCard, mode: "ai" | "copilot", customInstruction: string) => Promise<void>;
   sendingCommentFor: string | null;
   onClosePr: (pr: PrCard) => Promise<void>;
   closingPrKey: string | null;
@@ -62,7 +55,14 @@ function groupByRepo(prs: PrCard[]): Group[] {
     }));
 }
 
-export function PrTable({ prs, onQuickComment, sendingCommentFor, onClosePr, closingPrKey, onViewDetail }: Props) {
+export function PrTable({
+  prs,
+  onQuickComment,
+  sendingCommentFor,
+  onClosePr,
+  closingPrKey,
+  onViewDetail,
+}: Props) {
   const [groupBy, setGroupBy] = useState<GroupBy>("bucket");
 
   const groups = useMemo(
@@ -81,7 +81,9 @@ export function PrTable({ prs, onQuickComment, sendingCommentFor, onClosePr, clo
   return (
     <div>
       <div className="toolbar">
-        <span className="muted">{prs.length} PR{prs.length !== 1 ? "s" : ""}</span>
+        <span className="muted">
+          {prs.length} PR{prs.length !== 1 ? "s" : ""}
+        </span>
         <div className="toolbar-right">
           <button
             type="button"
@@ -111,15 +113,9 @@ export function PrTable({ prs, onQuickComment, sendingCommentFor, onClosePr, clo
               pr={pr}
               showRepo={groupBy !== "repo"}
               onQuickComment={onQuickComment}
-              isSending={
-                sendingCommentFor ===
-                `${pr.repositoryNameWithOwner}#${pr.number}`
-              }
+              isSending={sendingCommentFor === `${pr.repositoryNameWithOwner}#${pr.number}`}
               onClosePr={onClosePr}
-              isClosing={
-                closingPrKey ===
-                `${pr.repositoryNameWithOwner}#${pr.number}`
-              }
+              isClosing={closingPrKey === `${pr.repositoryNameWithOwner}#${pr.number}`}
               onViewDetail={onViewDetail}
             />
           ))}

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchPrDetail, PrDetail } from "@/features/dashboard/api/pr-detail";
+import { fetchPrDetail, type PrDetail } from "@/features/dashboard/api/pr-detail";
 import { timeAgo } from "@/features/dashboard/lib/helpers";
 
 type Props = {
@@ -41,8 +41,11 @@ function DetailContent({ detail }: { detail: PrDetail }) {
           <p className="muted">No timeline events.</p>
         ) : (
           <div className="flyout-timeline">
-            {detail.timeline.map((event, i) => (
-              <div key={i} className="flyout-timeline-item">
+            {detail.timeline.map((event) => (
+              <div
+                key={`${event.createdAt}-${event.type}-${event.actor}`}
+                className="flyout-timeline-item"
+              >
                 <span className="muted">{timeAgo(event.createdAt)}</span>
                 <span>
                   {event.actor ? <strong>{event.actor}</strong> : null}{" "}
@@ -68,8 +71,8 @@ function DetailContent({ detail }: { detail: PrDetail }) {
         {detail.reviews.length === 0 ? (
           <p className="muted">No reviews yet.</p>
         ) : (
-          detail.reviews.map((r, i) => (
-            <div key={i} className="flyout-item">
+          detail.reviews.map((r) => (
+            <div key={`${r.submittedAt}-${r.author}`} className="flyout-item">
               <div className="flyout-item-header">
                 <strong>{r.author}</strong>
                 <ReviewStateBadge state={r.state} />
@@ -89,10 +92,13 @@ function DetailContent({ detail }: { detail: PrDetail }) {
       {unresolvedThreads.length > 0 ? (
         <section className="flyout-section">
           <h4>Unresolved threads ({unresolvedThreads.length})</h4>
-          {unresolvedThreads.map((thread, ti) => (
-            <div key={ti} className="flyout-thread">
-              {thread.comments.map((c, ci) => (
-                <div key={ci} className="flyout-item">
+          {unresolvedThreads.map((thread) => (
+            <div
+              key={thread.comments[0]?.url ?? thread.comments[0]?.path}
+              className="flyout-thread"
+            >
+              {thread.comments.map((c) => (
+                <div key={`${c.url}-${c.createdAt}`} className="flyout-item">
                   <div className="flyout-item-header">
                     <strong>{c.author}</strong>
                     <span className="muted">{c.path}</span>
@@ -111,8 +117,8 @@ function DetailContent({ detail }: { detail: PrDetail }) {
         {detail.comments.length === 0 ? (
           <p className="muted">No comments.</p>
         ) : (
-          detail.comments.map((c, i) => (
-            <div key={i} className="flyout-item">
+          detail.comments.map((c) => (
+            <div key={c.url} className="flyout-item">
               <div className="flyout-item-header">
                 <strong>{c.author}</strong>
                 <span className="muted">{timeAgo(c.createdAt)}</span>
@@ -122,25 +128,26 @@ function DetailContent({ detail }: { detail: PrDetail }) {
           ))
         )}
       </section>
-
     </div>
   );
 }
 
-export function PrDetailFlyout({
-  repositoryNameWithOwner,
-  number,
-  token,
-  onClose,
-}: Props) {
+export function PrDetailFlyout({ repositoryNameWithOwner, number, token, onClose }: Props) {
   const query = useQuery({
     queryKey: ["pr-detail", repositoryNameWithOwner, number],
     queryFn: () => fetchPrDetail(token, repositoryNameWithOwner, number),
   });
 
   return (
-    <div className="flyout-backdrop" onClick={onClose}>
-      <div className="flyout-panel" onClick={(e) => e.stopPropagation()}>
+    <div className="flyout-backdrop" role="none" onMouseDown={onClose}>
+      <div
+        className="flyout-panel"
+        role="dialog"
+        onMouseDown={(e) => e.stopPropagation()}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") onClose();
+        }}
+      >
         <div className="flyout-header">
           <h3>
             {repositoryNameWithOwner} #{number}

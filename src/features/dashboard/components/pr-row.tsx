@@ -1,8 +1,8 @@
-import { PrCard } from "@/features/dashboard/types";
+import { useState } from "react";
 import {
+  checkoutCommand,
   checksColor,
   checksLabel,
-  checkoutCommand,
   diffSizeColor,
   diffSizeLabel,
   editorUrl,
@@ -10,23 +10,27 @@ import {
   reviewLabel,
   timeAgo,
 } from "@/features/dashboard/lib/helpers";
-import { useState } from "react";
+import type { PrCard } from "@/features/dashboard/types";
 
 type Props = {
   pr: PrCard;
   showRepo: boolean;
-  onQuickComment: (
-    pr: PrCard,
-    mode: "ai" | "copilot",
-    customInstruction: string,
-  ) => Promise<void>;
+  onQuickComment: (pr: PrCard, mode: "ai" | "copilot", customInstruction: string) => Promise<void>;
   isSending: boolean;
   onClosePr: (pr: PrCard) => Promise<void>;
   isClosing: boolean;
   onViewDetail: (pr: PrCard) => void;
 };
 
-export function PrRow({ pr, showRepo, onQuickComment, isSending, onClosePr, isClosing, onViewDetail }: Props) {
+export function PrRow({
+  pr,
+  showRepo,
+  onQuickComment,
+  isSending,
+  onClosePr,
+  isClosing,
+  onViewDetail,
+}: Props) {
   const [expanded, setExpanded] = useState(false);
   const [draft, setDraft] = useState("");
   const [copied, setCopied] = useState<string | null>(null);
@@ -39,16 +43,17 @@ export function PrRow({ pr, showRepo, onQuickComment, isSending, onClosePr, isCl
 
   return (
     <div className="pr-card">
-      <div className="pr-card-main" onClick={() => setExpanded(!expanded)}>
+      <button type="button" className="pr-card-main" onClick={() => setExpanded(!expanded)}>
         <div className="pr-card-left">
-          {showRepo ? (
-            <span className="badge badge-repo">{pr.repositoryNameWithOwner}</span>
-          ) : null}
+          {showRepo ? <span className="badge badge-repo">{pr.repositoryNameWithOwner}</span> : null}
           <button
             type="button"
             className="pr-number-btn"
             title="View PR details"
-            onClick={(e) => { e.stopPropagation(); onViewDetail(pr); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onViewDetail(pr);
+            }}
           >
             #{pr.number}
           </button>
@@ -73,18 +78,27 @@ export function PrRow({ pr, showRepo, onQuickComment, isSending, onClosePr, isCl
           </span>
           <span
             className="badge"
-            style={{ borderColor: checksColor(pr.statusCheckState), color: checksColor(pr.statusCheckState) }}
+            style={{
+              borderColor: checksColor(pr.statusCheckState),
+              color: checksColor(pr.statusCheckState),
+            }}
           >
             {checksLabel(pr.statusCheckState)}
           </span>
           <span
             className="badge"
-            style={{ borderColor: reviewColor(pr.reviewDecision), color: reviewColor(pr.reviewDecision) }}
+            style={{
+              borderColor: reviewColor(pr.reviewDecision),
+              color: reviewColor(pr.reviewDecision),
+            }}
           >
             {reviewLabel(pr.reviewDecision)}
           </span>
           {pr.reviewThreads.unresolved > 0 ? (
-            <span className="badge badge-threads" title={`${pr.reviewThreads.unresolved} of ${pr.reviewThreads.total} threads unresolved`}>
+            <span
+              className="badge badge-threads"
+              title={`${pr.reviewThreads.unresolved} of ${pr.reviewThreads.total} threads unresolved`}
+            >
               {pr.reviewThreads.unresolved} unresolved
             </span>
           ) : null}
@@ -102,7 +116,7 @@ export function PrRow({ pr, showRepo, onQuickComment, isSending, onClosePr, isCl
             {timeAgo(pr.updatedAt)}
           </span>
         </div>
-      </div>
+      </button>
 
       {expanded ? (
         <div className="pr-card-expanded">
@@ -111,15 +125,12 @@ export function PrRow({ pr, showRepo, onQuickComment, isSending, onClosePr, isCl
               {pr.repositoryNameWithOwner} / {pr.headRefName}
             </span>
             <span className="pr-meta-text muted">
-              +{pr.additions} -{pr.deletions} across {pr.changedFiles} file{pr.changedFiles !== 1 ? "s" : ""}
+              +{pr.additions} -{pr.deletions} across {pr.changedFiles} file
+              {pr.changedFiles !== 1 ? "s" : ""}
             </span>
-            <span className="pr-meta-text muted">
-              Created {timeAgo(pr.createdAt)} ago
-            </span>
+            <span className="pr-meta-text muted">Created {timeAgo(pr.createdAt)} ago</span>
             {pr.sources.length > 0 ? (
-              <span className="pr-meta-text muted">
-                Source: {pr.sources.join(", ")}
-              </span>
+              <span className="pr-meta-text muted">Source: {pr.sources.join(", ")}</span>
             ) : null}
           </div>
 
@@ -127,7 +138,10 @@ export function PrRow({ pr, showRepo, onQuickComment, isSending, onClosePr, isCl
             <button
               type="button"
               className="button-secondary"
-              onClick={(e) => { e.stopPropagation(); onViewDetail(pr); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onViewDetail(pr);
+              }}
             >
               View details
             </button>
@@ -151,7 +165,10 @@ export function PrRow({ pr, showRepo, onQuickComment, isSending, onClosePr, isCl
               type="button"
               className="button-danger"
               disabled={isClosing}
-              onClick={(e) => { e.stopPropagation(); onClosePr(pr); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onClosePr(pr);
+              }}
             >
               {isClosing ? "Closing..." : "Close PR"}
             </button>

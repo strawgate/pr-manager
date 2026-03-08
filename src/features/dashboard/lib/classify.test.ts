@@ -4,7 +4,7 @@ import {
   normalizeMergeable,
   normalizeReviewDecision,
 } from "@/features/dashboard/domain/pr-state-machine";
-import { PrCard } from "@/features/dashboard/types";
+import type { PrCard } from "@/features/dashboard/types";
 
 function makeBase(overrides: Partial<Omit<PrCard, "bucket">> = {}): Omit<PrCard, "bucket"> {
   return {
@@ -72,9 +72,7 @@ describe("classifyPr", () => {
   });
 
   it("classifies needs review", () => {
-    expect(
-      classifyPr(makeBase({ reviewDecision: "REVIEW_REQUIRED" })),
-    ).toBe("NEEDS_REVIEW");
+    expect(classifyPr(makeBase({ reviewDecision: "REVIEW_REQUIRED" }))).toBe("NEEDS_REVIEW");
   });
 
   it("classifies unresolved threads even when CI passes and approved", () => {

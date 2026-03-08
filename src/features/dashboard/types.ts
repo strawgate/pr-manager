@@ -1,8 +1,4 @@
-export type ReviewDecision =
-  | "APPROVED"
-  | "CHANGES_REQUESTED"
-  | "REVIEW_REQUIRED"
-  | "null";
+export type ReviewDecision = "APPROVED" | "CHANGES_REQUESTED" | "REVIEW_REQUIRED" | "null";
 
 export type MergeableState = "MERGEABLE" | "CONFLICTING" | "UNKNOWN";
 

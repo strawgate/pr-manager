@@ -6,10 +6,7 @@ type CommentInput = {
   body: string;
 };
 
-export async function postPrComment(
-  token: string,
-  input: CommentInput,
-): Promise<void> {
+export async function postPrComment(token: string, input: CommentInput): Promise<void> {
   const [owner, repo] = input.repositoryNameWithOwner.split("/");
   if (!owner || !repo) {
     throw new Error("Missing repository owner/name for PR comment");
