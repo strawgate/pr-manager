@@ -114,8 +114,8 @@ export function mapDashboardData(data: DashboardGraphqlData): DashboardResult {
     { source: "assigned", nodes: data.assigned.nodes },
   ];
 
-  const byNumber = new Map<
-    number,
+  const byRepoAndNumber = new Map<
+    string,
     { base: Omit<PrCard, "bucket" | "sources">; sources: Set<PrSource> }
   >();
 
@@ -124,11 +124,13 @@ export function mapDashboardData(data: DashboardGraphqlData): DashboardResult {
       const raw = asRawPr(node);
       if (!raw) continue;
 
-      const existing = byNumber.get(raw.number);
+      const repo = raw.repository?.nameWithOwner ?? "";
+      const key = `${repo}:${raw.number}`;
+      const existing = byRepoAndNumber.get(key);
       if (existing) {
         existing.sources.add(source);
       } else {
-        byNumber.set(raw.number, {
+        byRepoAndNumber.set(key, {
           base: mapSinglePr(raw),
           sources: new Set([source]),
         });
@@ -137,7 +139,7 @@ export function mapDashboardData(data: DashboardGraphqlData): DashboardResult {
   }
 
   const prs: PrCard[] = [];
-  for (const { base, sources } of byNumber.values()) {
+  for (const { base, sources } of byRepoAndNumber.values()) {
     const withSources = { ...base, sources: [...sources] };
     prs.push({
       ...withSources,
