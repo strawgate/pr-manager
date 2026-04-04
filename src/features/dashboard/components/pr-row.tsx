@@ -43,7 +43,19 @@ export function PrRow({
 
   return (
     <div className="pr-card">
-      <button type="button" className="pr-card-main" onClick={() => setExpanded(!expanded)}>
+      {/* biome-ignore lint/a11y/useSemanticElements: contains nested interactive elements (button, anchor) which are invalid inside <button> */}
+      <div
+        className="pr-card-main"
+        role="button"
+        tabIndex={0}
+        onClick={() => setExpanded(!expanded)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setExpanded(!expanded);
+          }
+        }}
+      >
         <div className="pr-card-left">
           {showRepo ? <span className="badge badge-repo">{pr.repositoryNameWithOwner}</span> : null}
           <button
@@ -116,7 +128,7 @@ export function PrRow({
             {timeAgo(pr.updatedAt)}
           </span>
         </div>
-      </button>
+      </div>
 
       {expanded ? (
         <div className="pr-card-expanded">
@@ -135,14 +147,7 @@ export function PrRow({
           </div>
 
           <div className="pr-action-row">
-            <button
-              type="button"
-              className="button-secondary"
-              onClick={(e) => {
-                e.stopPropagation();
-                onViewDetail(pr);
-              }}
-            >
+            <button type="button" className="button-secondary" onClick={() => onViewDetail(pr)}>
               View details
             </button>
             <a href={pr.url} target="_blank" rel="noreferrer" className="button-secondary">
@@ -165,10 +170,7 @@ export function PrRow({
               type="button"
               className="button-danger"
               disabled={isClosing}
-              onClick={(e) => {
-                e.stopPropagation();
-                onClosePr(pr);
-              }}
+              onClick={() => onClosePr(pr)}
             >
               {isClosing ? "Closing..." : "Close PR"}
             </button>
@@ -180,7 +182,6 @@ export function PrRow({
               placeholder="Custom instruction (optional)..."
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              onClick={(e) => e.stopPropagation()}
             />
             <button
               type="button"
