@@ -4,15 +4,8 @@ const GITHUB_PAT_TEMPLATE_URL =
   "https://github.com/settings/personal-access-tokens/new?name=PR+Manager&description=Token+for+PR+Manager+dashboard+%28PR+dashboard+and+comment+actions%29&expires_in=30&pull_requests=write&contents=read&statuses=read&issues=write";
 
 export function SettingsPanel() {
-  const {
-    githubToken,
-    openrouterApiKey,
-    resultLimit,
-    setGithubToken,
-    setOpenrouterApiKey,
-    setResultLimit,
-    clearSecrets,
-  } = useSettingsStore();
+  const { githubToken, resultLimit, setGithubToken, setResultLimit, clearSecrets } =
+    useSettingsStore();
 
   return (
     <section className="panel">
@@ -36,16 +29,6 @@ export function SettingsPanel() {
         </a>{" "}
         (select the correct resource owner and all repos you want to see).
       </p>
-
-      <label>
-        OpenRouter API key (for Vercel AI SDK actions)
-        <input
-          type="password"
-          placeholder="sk-or-..."
-          value={openrouterApiKey}
-          onChange={(event) => setOpenrouterApiKey(event.target.value.trim())}
-        />
-      </label>
 
       <label>
         PRs per bucket query

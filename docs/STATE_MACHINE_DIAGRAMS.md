@@ -1,5 +1,7 @@
 # PR State Machine Visual Flow
 
+> **⚠️ DESIGN DOCUMENT**: These diagrams represent the **planned architecture** for PR automation. The underlying logic is fully implemented and tested, but UI integration is pending. See `PR_STATE_MACHINE.md` for implementation status.
+
 ## Complete State Transition Diagram
 
 ```

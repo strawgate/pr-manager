@@ -1,10 +1,25 @@
 # PR State Machine & Automation Framework
 
+> **⚠️ IMPLEMENTATION STATUS**: This document describes the **design and architecture** of the PR automation framework. The core state machine, decision engine, and agent integration are fully implemented and tested, but **UI integration is not yet complete**. Currently, the app only supports: fetch PRs, inspect details, quick comment (`/ai`, `@copilot`), and close. The automation features described below are scaffolding for future UI development.
+
 Comprehensive documentation for the PR Manager's state machine and automation capabilities.
 
 ## Overview
 
-This framework provides a complete mapping of all states a PR goes through from creation to merge/close, along with automated response strategies for each state. The system can automatically fix issues, suggest actions to maintainers, or flag items that require manual intervention.
+This framework provides a complete mapping of all states a PR goes through from creation to merge/close, along with automated response strategies for each state. The system **design** can automatically fix issues, suggest actions to maintainers, or flag items that require manual intervention.
+
+**What's Implemented:**
+- ✅ Complete state machine (19 states)
+- ✅ Automation decision engine with complexity assessment
+- ✅ Worktree agent integration scaffolding
+- ✅ Comprehensive test suite (94 tests)
+
+**Not Yet in UI:**
+- ⏳ Auto-fix buttons for CI failures
+- ⏳ One-click conflict resolution
+- ⏳ LLM-based decision integration
+- ⏳ Automated reviewer assignment
+- ⏳ Stale PR auto-close
 
 ## Architecture
 
@@ -361,6 +376,19 @@ All **72 tests** ensure the automation framework works correctly across all stat
 
 ## Conclusion
 
-This automation framework provides a robust foundation for progressively automating PR management while maintaining safety and control. It starts conservative (mostly suggestions) and can become more aggressive as confidence builds through usage and feedback.
+This automation framework provides a robust **architectural foundation** for progressively automating PR management while maintaining safety and control. The core logic, state machine, and decision engine are fully implemented and tested (94 passing tests).
 
-The key insight: **automation confidence correlates with pattern recognizability and complexity**. Simple, well-understood issues can be fully automated. Complex, ambiguous issues always require human judgment.
+**Current Status:**
+- ✅ Complete domain logic and business rules
+- ✅ Fully tested automation decision engine
+- ✅ CLI integration scaffolding (Claude Code, Copilot)
+- ⏳ UI integration pending (Phase 2)
+
+**Next Steps for Production Use:**
+1. Integrate automation actions into `dashboard-page.tsx` UI
+2. Add action buttons for auto-fix, suggest, and manual review
+3. Connect LLM decision engine to OpenRouter (when needed)
+4. Implement maintainer dashboard with flagged items
+5. Add metrics tracking for automation effectiveness
+
+The key insight: **automation confidence correlates with pattern recognizability and complexity**. Simple, well-understood issues can be fully automated. Complex, ambiguous issues always require human judgment. The framework is designed to start conservative and become more aggressive as confidence builds through usage and feedback.
